@@ -12,7 +12,7 @@ public class ApiClient {
 
 
     public ApiClient(String project, String stream) {
-        baseUrl = "http://127.0.0.1:8000";
+        baseUrl = "https://ingest.huddu.io";
         this.project = project;
         this.stream = stream;
     }
@@ -27,9 +27,7 @@ public class ApiClient {
                 url
         )).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(body)).build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-
+        client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
 

@@ -1,2 +1,3 @@
 # huddu-java
-A Huddu client for java
+
+A Example client for java
