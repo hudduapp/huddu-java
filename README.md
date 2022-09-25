@@ -22,5 +22,5 @@ Add the dependency:
     <dependency>
 	    <groupId>com.github.hudduapp</groupId>
 	        <artifactId>huddu-java</artifactId>
-	    <version>1.0.0</version>
+	    <version>v1.0</version>
 	</dependency>
