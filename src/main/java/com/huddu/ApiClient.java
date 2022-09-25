@@ -11,12 +11,21 @@ public class ApiClient {
     String baseUrl;
     String project;
     String stream;
+    String token = "";
 
+
+    public ApiClient(String project, String stream, String token) {
+        baseUrl = "https://ingest.huddu.io";
+        this.project = project;
+        this.stream = stream;
+        this.token = token;
+    }
 
     public ApiClient(String project, String stream) {
         baseUrl = "https://ingest.huddu.io";
         this.project = project;
         this.stream = stream;
+
     }
 
     public void _request(String eventType, String body) throws IOException, InterruptedException {
@@ -25,24 +34,31 @@ public class ApiClient {
 
         String url = this.baseUrl + "/" + this.project + "/" + this.stream + "/" + eventType;
 
-        System.out.println(url);
         HttpRequest request = HttpRequest.newBuilder(URI.create(
                 url
-        )).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(body)).build();
-
-        client.send(request, HttpResponse.BodyHandlers.ofString());
+        )).header("Content-Type", "application/json").header("Authorization", "Token "+ this.token).POST(HttpRequest.BodyPublishers.ofString(body)).build();
 
 
+        HttpResponse res  =  client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (res.statusCode() > 299){
+            System.out.println(res.body());
+        }
     }
 
 
     public void report(String eventType, String data) {
-        data = data.replace('\'', '"');
 
-        String finalData = data;
+        String body = "";
+
+        body +="{'data':"+data+"}";
+
+        body = body.replace('\'', '"');
+
+        String finalBody = body;
         Thread t = new Thread(() -> {
             try {
-                this._request(eventType, finalData);
+                this._request(eventType, finalBody);
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
