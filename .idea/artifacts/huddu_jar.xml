@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="huddu:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/huddu_jar</output-path>
+    <root id="archive" name="huddu.jar">
+      <element id="module-output" name="huddu" />
+    </root>
+  </artifact>
+</component>
