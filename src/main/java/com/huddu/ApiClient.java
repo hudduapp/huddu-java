@@ -28,11 +28,11 @@ public class ApiClient {
 
     }
 
-    public void _request(String eventType, String body) throws IOException, InterruptedException {
+    public void _request(String body) throws IOException, InterruptedException {
 
         HttpClient client = HttpClient.newHttpClient();
 
-        String url = this.baseUrl + "/" + this.project + "/" + this.stream + "/" + eventType;
+        String url = this.baseUrl + "/" + this.project + "/" + this.stream ;
 
         HttpRequest request = HttpRequest.newBuilder(URI.create(
                 url
@@ -47,7 +47,7 @@ public class ApiClient {
     }
 
 
-    public void report(String eventType, String data) {
+    public void report(String data) {
 
         String body = "";
 
@@ -58,7 +58,7 @@ public class ApiClient {
         String finalBody = body;
         Thread t = new Thread(() -> {
             try {
-                this._request(eventType, finalBody);
+                this._request( finalBody);
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
