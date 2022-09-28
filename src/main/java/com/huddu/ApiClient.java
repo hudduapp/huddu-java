@@ -1,5 +1,9 @@
 package com.huddu;
 
+
+
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -29,7 +33,6 @@ public class ApiClient {
     }
 
     public void _request(String body) throws IOException, InterruptedException {
-
         HttpClient client = HttpClient.newHttpClient();
 
         String url = this.baseUrl + "/" + this.project + "/" + this.stream ;
@@ -47,7 +50,7 @@ public class ApiClient {
     }
 
 
-    public void report(String data) {
+    public void report(JSONObject data) {
 
         String body = "";
 
