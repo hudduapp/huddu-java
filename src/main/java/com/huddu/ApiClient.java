@@ -69,4 +69,26 @@ public class ApiClient {
         t.start();
 
     }
+
+
+    public void report(String data) {
+
+        String body = "";
+
+        body +="{'data':"+data+"}";
+
+        body = body.replace('\'', '"');
+
+        String finalBody = body;
+        Thread t = new Thread(() -> {
+            try {
+                this._request( finalBody);
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        t.start();
+
+    }
+
 }
