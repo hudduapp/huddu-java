@@ -1,8 +1,6 @@
 # huddu-java
 
-A client for https://huddu.io written in java <br>
-As of now this client does not support any frameworks, instead it simply provides an ApiClient for interfacing with the
-ingest API.
+An API client for the api.huddu.io written in java
 
 ### Installation
 
