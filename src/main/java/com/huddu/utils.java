@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 public class utils {
 
 
-    public static Object _request( String api_key, String method,String url, JSONObject body) throws IOException, InterruptedException {
+    public static Object _request(String api_key, String method, String url, JSONObject body) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
         String base_url = "https://api.huddu.io";
@@ -20,45 +20,48 @@ public class utils {
 
         HttpRequest request;
 
-        if(method == "PUT"){
+
+        if (method == "PUT") {
             request = HttpRequest.newBuilder(URI.create(
                     final_url
-            )).header("Content-Type", "application/json").header("Authorization", "Token "+ api_key).PUT(HttpRequest.BodyPublishers.ofString(body.toString())).build();
+            )).header("Content-Type", "application/json").header("Authorization", "Token " + api_key).PUT(HttpRequest.BodyPublishers.ofString(body.toString())).build();
         } else if (method == "DELETE") {
             request = HttpRequest.newBuilder(URI.create(
                     final_url
-            )).header("Content-Type", "application/json").header("Authorization", "Token "+ api_key).DELETE().build();
-        }else{
+            )).header("Content-Type", "application/json").header("Authorization", "Token " + api_key).DELETE().build();
+        } else {
             // could be a different method... for not everything else is a POST
             request = HttpRequest.newBuilder(URI.create(
                     final_url
-            )).header("Content-Type", "application/json").header("Authorization", "Token "+ api_key).POST(HttpRequest.BodyPublishers.ofString(body.toString())).build();
+            )).header("Content-Type", "application/json").header("Authorization", "Token " + api_key).POST(HttpRequest.BodyPublishers.ofString(body.toString())).build();
         }
 
 
-        HttpResponse res  =  client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse res = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (res.statusCode() > 299){
-            System.out.println(res.body());
+
+        if (res.statusCode() > 299) {
+            System.out.println(res.body().toString());
         }
         return res.body();
     }
-    public static Object _request( String api_key, String _method,String url) throws IOException, InterruptedException {
+
+    public static Object _request(String api_key, String _method, String url) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
         String base_url = "https://api.huddu.io";
 
         String final_url = base_url + url;
-        System.out.println(final_url);
+
         HttpRequest request = HttpRequest.newBuilder(URI.create(
                 final_url
-        )).header("Content-Type", "application/json").header("Authorization", "Token "+ api_key).GET().build();
+        )).header("Content-Type", "application/json").header("Authorization", "Token " + api_key).GET().build();
 
 
-        HttpResponse res  =  client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse res = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (res.statusCode() > 299){
-            System.out.println(res.body());
+        if (res.statusCode() > 299) {
+            System.out.println(res.body().toString());
         }
         return res.body();
     }
