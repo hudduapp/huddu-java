@@ -13,7 +13,7 @@ public class Example {
         String account_id = "6966809249058037760";  // todo: replace as needed
         String event_id = "6987851870576484352";  // todo: replace as needed
 
-        ApiClient cl = new ApiClient("c5a2738274c2f47cf801108d07afe2a9");
+        ApiClient cl = new ApiClient("<integration_api_key>");
 
 
         // ACCOUNTS
