@@ -3,10 +3,10 @@ package com.huddu;
 
 public class ApiClient {
 
-    Accounts Accounts;
-    Projects Projects;
-    Streams Streams;
-    Events Events;
+    public Accounts Accounts;
+    public Projects Projects;
+    public Streams Streams;
+    public Events Events;
 
     public ApiClient(String api_key) {
         Accounts = new Accounts(api_key);
