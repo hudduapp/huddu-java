@@ -1,5 +1,6 @@
 package com.huddu;
 
+import com.huddu._exceptions.APIException;
 import com.huddu._exceptions.SafePutException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,16 +11,20 @@ public class Store {
     private final _sessions session;
     private final _responses responses = new _responses();
 
-    public Store(String token, String collection, String region) {
+    public Store(String token, String collection, String region) throws APIException {
         session = new _sessions(
                 collection, token, region
         );
+
+        session.setType("store");
     }
 
-    public Store(String token, String collection, String region, String baseUrl) {
+    public Store(String token, String collection, String region, String baseUrl) throws APIException {
         session = new _sessions(
                 collection, token, region, baseUrl
         );
+
+        session.setType("store");
     }
 
 

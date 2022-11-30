@@ -1,5 +1,6 @@
 package com.huddu;
 
+import com.huddu._exceptions.APIException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -129,5 +130,36 @@ public class _sessions {
         } catch (Exception e) {
             return null;
         }
+    }
+
+
+    public void setType(String type) throws APIException {
+        String typeDocument = null;
+
+        ArrayList ids = new ArrayList();
+        ids.add("_type");
+        try {
+            typeDocument = ((JSONObject) ((JSONArray) list_documents(ids, 1, 0).get("data")).get(0)).get("data").toString();
+        } catch (Exception e) {
+            JSONArray items = new JSONArray();
+            JSONObject newTypeDocument = new JSONObject();
+
+            newTypeDocument.put("id", "_type");
+            newTypeDocument.put("data", type);
+
+            items.put(newTypeDocument);
+
+            create_documents(
+                    items
+            );
+        }
+
+
+        if (typeDocument != null) {
+            if (typeDocument != type) {
+                throw new APIException("Collection is already used for " + typeDocument);
+            }
+        }
+
     }
 }
