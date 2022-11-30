@@ -39,31 +39,36 @@ public class _sessions {
         String finalUrl = baseUrl + "/documents";
 
 
-        if (method == "GET") {
-            finalUrl = baseUrl + "/documents?" + params;
-            request = HttpRequest.newBuilder(URI.create(
-                            finalUrl
-                    )).header("Content-Type", "application/json").header("Authorization", "Token " + token)
-                    .header("Collection", collection)
-                    .header("Region", region).GET(
-                    ).build();
-        } else if (method == "PUT") {
-            request = HttpRequest.newBuilder(URI.create(
-                            finalUrl
-                    )).header("Content-Type", "application/json").header("Authorization", "Token " + token).header("Collection", collection)
-                    .header("Region", region).method("PUT", HttpRequest.BodyPublishers.ofString(data.toString())).build();
-        } else if (method == "DELETE") {
-            request = HttpRequest.newBuilder(URI.create(
-                            finalUrl
-                    )).header("Content-Type", "application/json").header("Authorization", "Token " + token).header("Collection", collection)
-                    .header("Region", region).method("DELETE", HttpRequest.BodyPublishers.ofString(data.toString())).build();
-        } else {
-            request = HttpRequest.newBuilder(URI.create(
-                            finalUrl
-                    )).header("Content-Type", "application/json")
-                    .header("Authorization", "Token " + token)
-                    .header("Collection", collection)
-                    .header("Region", region).method("POST", HttpRequest.BodyPublishers.ofString(data.toString())).build();
+        switch (method) {
+            case "GET":
+                finalUrl = baseUrl + "/documents?" + params;
+                request = HttpRequest.newBuilder(URI.create(
+                                finalUrl
+                        )).header("Content-Type", "application/json").header("Authorization", "Token " + token)
+                        .header("Collection", collection)
+                        .header("Region", region).GET(
+                        ).build();
+                break;
+            case "PUT":
+                request = HttpRequest.newBuilder(URI.create(
+                                finalUrl
+                        )).header("Content-Type", "application/json").header("Authorization", "Token " + token).header("Collection", collection)
+                        .header("Region", region).method("PUT", HttpRequest.BodyPublishers.ofString(data.toString())).build();
+                break;
+            case "DELETE":
+                request = HttpRequest.newBuilder(URI.create(
+                                finalUrl
+                        )).header("Content-Type", "application/json").header("Authorization", "Token " + token).header("Collection", collection)
+                        .header("Region", region).method("DELETE", HttpRequest.BodyPublishers.ofString(data.toString())).build();
+                break;
+            default:
+                request = HttpRequest.newBuilder(URI.create(
+                                finalUrl
+                        )).header("Content-Type", "application/json")
+                        .header("Authorization", "Token " + token)
+                        .header("Collection", collection)
+                        .header("Region", region).method("POST", HttpRequest.BodyPublishers.ofString(data.toString())).build();
+                break;
         }
 
         HttpResponse res = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -100,17 +105,17 @@ public class _sessions {
 
     public JSONObject list_documents(ArrayList ids, int limit, int skip) {
 
-        String idsString = "";
+
+        StringBuilder idsString = new StringBuilder();
 
         for (Object id : ids) {
-            idsString += id + ",";
+            idsString.append(id).append(",");
         }
 
-        idsString = idsString.substring(0, idsString.length() - 1);
+        idsString = new StringBuilder(idsString.substring(0, idsString.length() - 1));
 
 
         String params = "ids=" + idsString + "&limit=" + limit + "&skip=" + skip;
-
 
         try {
             return _request("GET", params, null);
@@ -138,6 +143,7 @@ public class _sessions {
 
         ArrayList ids = new ArrayList();
         ids.add("_type");
+
         try {
             typeDocument = ((JSONObject) ((JSONArray) list_documents(ids, 1, 0).get("data")).get(0)).get("data").toString();
         } catch (Exception e) {
@@ -156,7 +162,7 @@ public class _sessions {
 
 
         if (typeDocument != null) {
-            if (typeDocument != type) {
+            if (!typeDocument.equals(type)) {
                 throw new APIException("Collection is already used for " + typeDocument);
             }
         }

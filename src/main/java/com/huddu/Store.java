@@ -85,4 +85,13 @@ public class Store {
     }
 
 
+    public Object fetch(ArrayList ids, int skip, int limit, int start, int end) {
+        return responses.makeResponse((JSONArray) session.list_documents(ids, limit, skip, start, end).get("data"));
+    }
+
+    public Object fetch(ArrayList ids, int skip, int limit) {
+        return responses.makeResponse((JSONArray) session.list_documents(ids, limit, skip).get("data"));
+    }
+
+
 }
